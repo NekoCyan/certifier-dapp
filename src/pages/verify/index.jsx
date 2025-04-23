@@ -1,25 +1,26 @@
-import './styles.scss';
-import { SideNav } from '../../component/SideNav';
-import {ReactComponent as VerifiedIcon} from '../../assets/verified.svg'
 import { useRef, useState } from 'react';
+import { ReactComponent as VerifiedIcon } from '../../assets/verified.svg';
+import { SideNav } from '../../component/SideNav';
 import web3 from '../../web3/proxy';
+import './styles.scss';
+
+const defaultOfCert = {
+    id: '######',
+    expireAt: '######',
+    createdAt: '######',
+    issuedTo: '######',
+    issuedBy: '######',
+    data: {
+        title: '######',
+        name: '######',
+        description: '######',
+    }
+};
 
 export function VerifyPage() {
-
     const id = useRef(null)
 
-    const [certificates, setCertificates] = useState([{
-        id: '######',
-        expireAt: '######',
-        createdAt: '######',
-        issuedTo: '######',
-        issuedBy: '######',
-        data: {
-            title: '######',
-            name: '######',
-            description: '######',
-        }
-    }])
+    const [certificates, setCertificates] = useState([defaultOfCert])
 
     const [message, setMessage] = useState(null)
     const [index, setIndex] = useState(0)
@@ -113,7 +114,7 @@ export function VerifyPage() {
             <div className='certificate-card preview'>
                 <h2 className='card header'>Certificates Change History</h2>
                 {certificates.map((c, i) =>
-                    <div className={`card ${i === index && 'selected'}`} key={c.id} onClick={() => setIndex(i)}>
+                    <div className={`card ${i === index && 'selected'}`} key={c.id + i} onClick={() => setIndex(i)}>
                         <div className='card1'>
                             <div className='title'>Title: {c.data.title}</div>
                             <div className='cid'>Certificate ID: {c.id}</div>
