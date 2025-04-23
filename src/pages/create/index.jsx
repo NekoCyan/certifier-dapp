@@ -1,8 +1,7 @@
-import './styles.scss';
-import { SideNav } from '../../component/SideNav';
-import {ReactComponent as VerifiedIcon} from '../../assets/verified.svg'
 import { useEffect, useRef, useState } from 'react';
+import { SideNav } from '../../component/SideNav';
 import web3 from '../../web3/proxy';
+import './styles.scss';
 
 export function CreatePage() {
     const [certificates, setCertificates] = useState([])
@@ -31,9 +30,10 @@ export function CreatePage() {
                 name: name.current.value,
                 description: description.current.innerText
             }, id)
-            setCertificates([certificate, ...certificates])
+            if (typeof certificate === 'object' && !Array.isArray(certificate))
+                setCertificates([certificate, ...certificates])
         } catch (error) {
-            alert(error)
+            alert(error?.message || error)
         }
     }
 
@@ -92,15 +92,14 @@ export function CreatePage() {
                 {certificates.map(c =>
                     <div className={`card ${c.id === id && 'selected'}`} key={c.id} onClick={() => setId(c.id)}>
                         <div className='card1'>
-                            <div className='title'>Title: {c.data.title}</div>
-                            <div className='cid'>Certificate ID: {c.id}</div>
-                            <div className='Iby'>Issued By: {c.issuedBy}</div>
-                            <div className='Ito'>Issued to: {c.issuedTo}</div>
+                            <div className='title'>Title: {c?.data?.title}</div>
+                            <div className='cid'>Certificate ID: {c?.id}</div>
+                            <div className='Iby'>Issued By: {c?.issuedBy}</div>
+                            <div className='Ito'>Issued to: {c?.issuedTo}</div>
                         </div>
-                        <div className='vicon'><VerifiedIcon/></div>
+                        {/* <div className='vicon'><VerifiedIcon/></div> */}
                     </div>
                 )}
-
             </div>
         </div>
     )

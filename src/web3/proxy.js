@@ -56,6 +56,7 @@ class Web3Proxy {
             certificate.createdAt,
         )
         const receipt = await tx.wait();
+        console.log("Transaction receipt:", receipt);
 
         return certificate;
     }
